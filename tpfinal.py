@@ -7,11 +7,11 @@ def clamp_rect(x, y, w, h, W, H):
     h = max(1, min(h, H - y))
     return x, y, w, h
 
-FRONT_FRAC = dict(x=0.300, y=0.100, w=0.400, h=0.125)
+FRONT_FRAC = dict(x=0.275, y=0.050, w=0.450, h=0.160)
 CASCADE_PATH = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
 face_cascade = cv2.CascadeClassifier(CASCADE_PATH)
 
-in_path  = "video 2.mp4"
+in_path  = "video 1.mp4"
 out_path = "salida_con_frente.mp4"
 
 cap = cv2.VideoCapture(in_path)
@@ -43,12 +43,8 @@ while True:
         fh = int(FRONT_FRAC["h"] * h)
         fx, fy, fw, fh = clamp_rect(fx, fy, fw, fh, W, H)
 
-        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 255), 2)
         cv2.rectangle(frame, (fx, fy), (fx+fw, fy+fh), (0, 255, 0), 3)
 
-        center = (x + w//2, y + h//2)
-        axes   = (w//2, h//2)
-        cv2.ellipse(frame, center, axes, 0, 0, 360, (255, 255, 255), 2)
 
     writer.write(frame)
     cv2.imshow("Procesando...", frame)
